@@ -33,3 +33,12 @@ exports.getUserNameEmails = (userIds) => {
 
   return Promise.all(result);
 }
+
+exports.getCronPattern = () => {
+  return new Promise((res, rej) => {
+    redisClient.get('cronPattern', (err, data) => {
+      if (err) rej(err);
+      res(data);
+    })
+  })
+}

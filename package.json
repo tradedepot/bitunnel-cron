@@ -23,7 +23,7 @@
     "cron": "^1.1.0",
     "cron-parser": "^2.1.0",
     "elasticsearch": "^11.0.1",
-    "elasticsearch-cron": "^0.2.1",
+    "elasticsearch-cron": "^1.0.0",
     "moment": "^2.13.0",
     "nodemailer": "^2.4.2",
     "redis": "^2.6.2",

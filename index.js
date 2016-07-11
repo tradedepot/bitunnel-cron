@@ -10,73 +10,75 @@ const client = new EsCron({
 });
 
 const start = cronPattern => {
-    let search = client.search({ "match": { "log": "BitunnelRouteException" } }, cronPattern, 500);
-    search.on('run', (data) => {
-      // console.log('Came back with the result', data);
-      if (data && data.hits && data.hits.hits) {
-        let hits = data.hits.hits,
-          errorArray = [];
+  let search = client.search({ "match": { "log": "BitunnelRouteException" } }, cronPattern, 500);
+  search.on('run', (data) => {
+    // console.log('Came back with the result', data);
+    if (data && data.hits && data.hits.hits) {
+      let hits = data.hits.hits,
+        errorArray = [];
 
-        _.each(hits, hit => {
-          if (hit && hit._source && hit._source.log) {
+      _.each(hits, hit => {
+        if (hit && hit._source && hit._source.log) {
+          let _log = hit._source.log;
 
-            let _log = hit._source.log;
+          try {
+            let json = JSON.parse(_log);
 
-            try {
-              let json = JSON.parse(_log);
+            let errorObject = {
+              message: json.errorMessage.split('cause:')[1],
+              exceptionType: json.exceptionType,
+              time: hit._source["@timestamp"]
+            };
 
-              let errorObject = {
-                message: json.errorMessage.split('cause:')[1],
-                exceptionType: json.exceptionType,
-                time: hit._source["@timestamp"]
-              };
-
-              //remove first body element(key)
-              if (json.body && typeof json.body === 'object' && json.body.length > 0) {
-                json.body.shift();
-                errorObject.objectReference = json.body[0];
-                if (json.body.length > 1) errorObject.originUser = json.body[1]
-              }
-
-              if (json.routeHistory && json.routeHistory.length > 0)
-                errorObject.startPoint = json.routeHistory[0].routeId;
-
-              if (json.routeHistory && json.routeHistory.length > 1)
-                errorObject.failurePoint = json.routeHistory[1].routeId;
-
-              // console.log(errorObject);
-              errorArray.push(errorObject);
-            } catch (exception) {
-              console.log(`An error occuured ${exception}`)
+            //remove first body element(key)
+            if (json.body && typeof json.body === 'object' && json.body.length > 0) {
+              json.body.shift();
+              errorObject.objectReference = json.body[0];
+              if (json.body.length > 1) errorObject.originUser = json.body[1]
             }
+
+            if (json.routeHistory && json.routeHistory.length > 0)
+              errorObject.startPoint = json.routeHistory[0].routeId;
+
+            if (json.routeHistory && json.routeHistory.length > 1)
+              errorObject.failurePoint = json.routeHistory[1].routeId;
+
+            // console.log(errorObject);
+            errorArray.push(errorObject);
+          } catch (exception) {
+            console.log(`An error occuured ${exception}`)
           }
-        })
-
-        if (errorArray.length > 0) {
-          // send mail to recipients
-          redisUtil.getRecipientUserIds()
-            .then((userIds) => {
-              return redisUtil.getUserNameEmails(userIds);
-            })
-            .then((users) => {
-              return mailUtil.sendMail(users, errorArray);
-            })
-            .then((info) => {
-              console.log(`Mail sent: ${info.response}`);
-            })
-            .catch((err) => {
-              console.log(`An error occured, ${err}`);
-            })
         }
+      })
+
+      if (errorArray.length > 0) {
+        // send mail to recipients
+        redisUtil.getRecipientUserIds()
+          .then((userIds) => {
+            return redisUtil.getUserNameEmails(userIds);
+          })
+          .then((users) => {
+            return mailUtil.sendMail(users, errorArray);
+          })
+          .then((info) => {
+            console.log(`Mail sent: ${info.response}`);
+          })
+          .catch((err) => {
+            console.log(`An error occured, ${err}`);
+          })
+      } else {
+        let date = new Date();
+        console.info(`No Error occured at this time ${date}`);
       }
-    });
+    }
+  });
 
-    search.on('error', (ex) => {
-      console.log(`An error occured, ${ex}`);
-    })
-  }
+  search.on('error', (ex) => {
+    console.log(`An error occured, ${ex}`);
+  })
+}
 
-  //get cron Pattern or run every 1 hour
+//get cron Pattern or run every 1 hour
 redisUtil.getCronPattern()
   .then((cronPattern) => {
     start(cronPattern || '0 0 */1 * * *');
@@ -85,10 +87,10 @@ redisUtil.getCronPattern()
     console.log(exp);
   })
 
-console.log(`Script started successfully`);
+console.info(`Script started successfully`);
 
 /**
-* @Todo
-* Make script tenant based, 
-* Add tenant id to elastic payload
-*/
+ * @Todo
+ * Make script tenant based, 
+ * Add tenant id to elastic payload
+ */

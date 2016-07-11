@@ -85,6 +85,8 @@ redisUtil.getCronPattern()
     console.log(exp);
   })
 
+console.log(`Script started successfully`);
+
 /**
 * @Todo
 * Make script tenant based, 

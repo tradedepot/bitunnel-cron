@@ -17,7 +17,14 @@
 
 FROM node:6.1
 MAINTAINER Kingsley Ochu <kochu@c2gconsulting.com>
-EXPOSE 8080
-COPY index.js .
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+COPY package.json /usr/src/app/
 RUN npm install
-CMD node index.js
+
+COPY . /usr/src/app
+
+EXPOSE 8080
+CMD [ "npm", "start" ]

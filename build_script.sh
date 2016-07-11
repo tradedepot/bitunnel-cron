@@ -17,8 +17,8 @@
  #  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  #  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-docker rmi $(docker images | grep btunnel-cron |  awk '{print $3}')
+#docker rmi $(docker images | grep btunnel-cron |  awk '{print $3}')
 
-docker build --no-cache=true -t docker.io/tradedepot/bitunnel-cron:latest .
+#docker build --no-cache=true -t docker.io/tradedepot/bitunnel-cron:latest .
 
 docker push docker.io/tradedepot/bitunnel-cron:latest

@@ -3,9 +3,7 @@ const _ = require('underscore'),
   redis = require('redis');
 
 const redisClient = redis.createClient(
-  /*
-    process.env.REDIS_PORT, process.env.REDIS_MASTER
-  */
+  process.env.REDIS_PORT, process.env.REDIS_MASTER
 )
 
 exports.getRecipientUserIds = () => {
@@ -24,8 +22,8 @@ exports.getUserNameEmails = (userIds) => {
       redisClient.hmget(userId, 'name', 'email', (err, data) => {
         if (err) rej(err);
         data = {
-        	name: data[0],
-        	email: data[1]
+          name: data[0],
+          email: data[1]
         }
         res(data);
       })

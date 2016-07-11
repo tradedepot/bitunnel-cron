@@ -2,9 +2,7 @@
 const _ = require('underscore'),
   mailer = require('nodemailer'),
   tpl = require('./mail-template');
-
-process.env.MAIL_URL = process.env.MAIL_URL || 'smtps://' + process.env.ODIO_EMAIL + ':' + process.env.ODIO_EMAIL_PASSWORD + '@smtp.gmail.com';
-
+  
 // create reusable transporter object using the default SMTP transport 
 const transporter = mailer.createTransport(process.env.MAIL_URL);
 

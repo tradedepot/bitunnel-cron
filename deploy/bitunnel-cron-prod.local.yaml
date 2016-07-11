@@ -35,10 +35,10 @@ spec:
             fieldRef:
               fieldPath: "metadata.namespace"
         - name: REDIS_MASTER
-          value: "${REDIS_MASTER}"
+          value: "bitunnel-r-prod.znw8ii.ng.0001.use1.cache.amazonaws.com"
         - name: REDIS_PORT
-          value: "${REDIS_PORT}"
+          value: "6379"
         - name: ES_URL  
-          value: "${ES_URL}"
+          value: "search-bitunnel-prod-svc7jss6tltdkkwdg4vop7bvj4.us-east-1.es.amazonaws.com:80"
         - name: MAIL_URL  
-          value: "${MAIL_URL}"
+          value: "smtps://bitunnel%40c2gconsulting.com:1ndieg0g0@smtp.gmail.com"

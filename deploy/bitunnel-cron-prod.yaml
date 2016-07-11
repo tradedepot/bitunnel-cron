@@ -35,10 +35,10 @@ spec:
             fieldRef:
               fieldPath: "metadata.namespace"
         - name: REDIS_MASTER
-          value: "${REDIS_MASTER}"
+          value: "${PROD_REDIS_MASTER}"
         - name: REDIS_PORT
-          value: "${REDIS_PORT}"
+          value: "${PROD_REDIS_PORT}"
         - name: ES_URL  
-          value: "${ES_URL}"
+          value: "${PROD_ES_URL}"
         - name: MAIL_URL  
-          value: "${MAIL_URL}"
+          value: "${PROD_MAIL_URL}"

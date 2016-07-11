@@ -6,7 +6,7 @@ const EsCron = require('elasticsearch-cron'),
   mailUtil = require('./utils/mail');
 
 const client = new EsCron({
-  host: process.env.ES_HOST.concat(':').concat(process.env.ES_PORT) || 'localhost:9200'
+  host: process.env.ES_URL || 'localhost:9200'
 });
 
 const start = cronPattern => {
@@ -75,6 +75,7 @@ const start = cronPattern => {
       console.log(`An error occured, ${ex}`);
     })
   }
+
   //get cron Pattern or run every 1 hour
 redisUtil.getCronPattern()
   .then((cronPattern) => {
@@ -83,3 +84,9 @@ redisUtil.getCronPattern()
   .catch((exp) => {
     console.log(exp);
   })
+
+/**
+* @Todo
+* Make script tenant based, 
+* Add tenant id to elastic payload
+*/

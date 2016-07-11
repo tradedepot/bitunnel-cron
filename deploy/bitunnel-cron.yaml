@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bitunnel-cron
+  labels:
+    app: bitunnel-cron
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: bitunnel-cron
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: bitunnel-cron
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cron
+    spec:
+      containers:
+      - name: bitunnel-cron
+        image: docker.io/tradedepot/bitunnel-cron:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: "metadata.namespace"

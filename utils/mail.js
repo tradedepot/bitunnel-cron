@@ -10,7 +10,6 @@ const transporter = mailer.createTransport(process.env.MAIL_URL);
 let mailOptions = {
   from: '"Bitunnel Team 👥" <no-reply@bitunnel.io>', // sender address 
   subject: 'Bitunnel Error Notification ✔', // Subject line 
-  text: 'Please, reopen on a browser that supports html. Thanks', // plaintext body
 };
 
 exports.sendMail = (users, message) => {
@@ -22,6 +21,7 @@ exports.sendMail = (users, message) => {
 
     mailOptions = _.extend(mailOptions, { to: userMails });
     mailOptions = _.extend(mailOptions, { html: tpl.mailTemplate(message) });
+    mailOptions = _.extend(mailOptions, { text: tpl.mailTextTemplate(message) }); // plaintext body
 
     // send mail with defined transport object 
     transporter.sendMail(mailOptions, function(error, info) {

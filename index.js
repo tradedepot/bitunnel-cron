@@ -78,10 +78,10 @@ const start = cronPattern => {
   })
 }
 
-//get cron Pattern or run every 1 hour
+//get cron Pattern or run every 5 minutes
 redisUtil.getCronPattern()
   .then((cronPattern) => {
-    start(cronPattern || '0 0 */1 * * *');
+    start(cronPattern || '0 */5  * * * *');
   })
   .catch((exp) => {
     console.log(exp);

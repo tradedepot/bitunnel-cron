@@ -1,6 +1,6 @@
 {
   "name": "bitunnel-cron",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Cron jobs that crawl bitunnel logs and alerts specific users on errors",
   "main": "index.js",
   "scripts": {

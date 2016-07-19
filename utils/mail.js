@@ -20,8 +20,8 @@ exports.sendMail = (users, message) => {
     userMails = userMails.toString();
 
     mailOptions = _.extend(mailOptions, { to: userMails });
-    mailOptions = _.extend(mailOptions, { html: tpl.mailTemplate(message) });
-    mailOptions = _.extend(mailOptions, { text: tpl.mailTextTemplate(message) }); // plaintext body
+    mailOptions = _.extend(mailOptions, { html: tpl.htmlTemplate(message) });
+    mailOptions = _.extend(mailOptions, { text: tpl.textTemplate(message) }); // plaintext body
 
     // send mail with defined transport object 
     transporter.sendMail(mailOptions, function(error, info) {

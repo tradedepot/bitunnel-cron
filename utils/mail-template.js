@@ -1,6 +1,6 @@
 'use strict';
 
-exports.mailTemplate = errorArray => `
+exports.htmlTemplate = errorArray => `
  <style>
   .bt-error {
     border: 1px solid #ddd;
@@ -58,4 +58,14 @@ exports.mailTemplate = errorArray => `
 <p>
 The Bitunnel Team.
 </p>
+`;
+
+
+exports.textTemplate = errorArray => `
+	Hello,\n
+	Kindly review the following errors thrown within the period under review\n\n
+	Time\t Exception Type\t Ref\t Message\t Start Point\t Failure Point\t Origin User \n
+	${errorArray.map(err => `${err.time}\t ${err.exceptionType}\t ${err.objectReference || 'Nil'}\t ${err.message}\t ${err.startPoint}\t ${err.failurePoint} \t ${err.originUser || 'Nil'}\n
+	`)}	
+	The Bitunnel Team.
 `;

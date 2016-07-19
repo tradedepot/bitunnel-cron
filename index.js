@@ -58,6 +58,13 @@ const start = cronPattern => {
             return redisUtil.getUserNameEmails(userIds);
           })
           .then((users) => {
+            //remove odio errors;
+            errorArray = _.map(errorArray, err => {
+              if (err.startPoint && err.startPoint.includes('odio'))
+              // ignore;
+              else return err;
+            });
+
             return mailUtil.sendMail(users, errorArray);
           })
           .then((info) => {

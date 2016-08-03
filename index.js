@@ -60,9 +60,9 @@ const start = cronPattern => {
           .then((users) => {
             //remove odio errors;
             errorArray = _.map(errorArray, err => {
-              if (err.startPoint && err.startPoint.includes('odio'))
-              // ignore;
-              else return err;
+              if (err.startPoint && err.startPoint.includes('odio')) {
+
+              } else return err;
             });
 
             return mailUtil.sendMail(users, errorArray);
@@ -94,7 +94,7 @@ redisUtil.getCronPattern()
     console.log(exp);
   })
 
-console.info(`Script started successfully`);
+console.info(`Script started successfully...`);
 
 /**
  * @Todo

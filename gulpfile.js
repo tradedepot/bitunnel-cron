@@ -1,4 +1,4 @@
-let gulp = require('gulp'),
+    let gulp = require('gulp'),
     nodemon = require('gulp-nodemon'),
     jshint = require('gulp-jshint')
 

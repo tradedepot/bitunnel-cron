@@ -46,7 +46,7 @@ const start = cronPattern => {
             // console.log(errorObject);
             errorArray.push(errorObject);
           } catch (exception) {
-            console.log(`An error occuured ${exception}`)
+            console.error(`An error occuured ${exception}`)
           }
         }
       })
@@ -68,10 +68,10 @@ const start = cronPattern => {
             return mailUtil.sendMail(users, errorArray);
           })
           .then((info) => {
-            console.log(`Mail sent: ${info.response}`);
+            console.info(`Mail sent: ${info.response}`);
           })
           .catch((err) => {
-            console.log(`An error occured, ${err}`);
+            console.error(`An error occured, ${err}`);
           })
       } else {
         let date = new Date();
@@ -81,7 +81,7 @@ const start = cronPattern => {
   });
 
   search.on('error', (ex) => {
-    console.log(`An error occured, ${ex}`);
+    console.error(`An error occured, ${ex}`);
   })
 }
 
@@ -91,7 +91,7 @@ redisUtil.getCronPattern()
     start(cronPattern || '0 */5  * * * *');
   })
   .catch((exp) => {
-    console.log(exp);
+    console.error(exp);
   })
 
 console.info(`Script started successfully...`);

@@ -1,17 +1,17 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: bitunnel-cron-1
+  name: bitunnel-cron-2
 spec:
   replicas: 1
   selector:
     app: bitunnel-cron
-    buildVersion: "build-1"
+    buildVersion: "build-2"
   template:
     metadata:
       labels:
         app: bitunnel-cron
-        buildVersion: "build-1"
+        buildVersion: "build-2"
     spec:
       containers:
       - name: bitunnel-cron
@@ -28,6 +28,6 @@ spec:
         - name: REDIS_PORT
           value: "6379"
         - name: ES_URL  
-          value: "search-bitunnel-pro-dipt3f2wqmurrsc6z6twdr5nlm.us-east-1.es.amazonaws.com:80"
+          value: "search-bitunnel-prod-svc7jss6tltdkkwdg4vop7bvj4.us-east-1.es.amazonaws.com:80"
         - name: MAIL_URL  
           value: "smtps://bitunnel%40c2gconsulting.com:1ndieg0g0@smtp.gmail.com"
